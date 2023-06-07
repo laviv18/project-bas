@@ -1,19 +1,22 @@
 <?php
 
-include_once 'classes/database.php';
+include_once 'classes/Database.php';
 
 class Klant extends Database{
+	public $KlantId;
 	public $Klantnaam;
 	public $klantemail;
 	public $klantadres;
 	public $klantpostcode;
 	public $klantwoonplaats;
 
+
 	
 	// Methods
 	
 	public function setObject($klantnaam, $klantemail, $klantadres, $klantpostcode, $klantwoonplaats){
 		//self::$conn = $db;
+		
 		$this->klantnaam = $klantnaam;
 		$this->klantemail = $klantemail;
 		$this->klantadres = $klantadres;
@@ -150,7 +153,7 @@ class Klant extends Database{
 	private function BepMaxNr() : int {
 		
 	// Bepaal uniek nummer
-	$sql="SELECT MAX(NR)+1 FROM acteurs";
+	$sql="SELECT MAX(klantid)+1 FROM  klanten";
 	return  (int) self::$conn->query($sql)->fetchColumn();
 }
 	
@@ -158,10 +161,10 @@ class Klant extends Database{
 		// Voor deze functie moet eerst een setObject aangeroepen worden om $this te vullen
 		
 		//
-		$this->nr = $this->BepMaxNr();
+		$this->KlantId = $this->getKlanten();
 		
-		$sql = "INSERT INTO klanten (KlantNaam, KlantEmail, KlantAdres, KlantPostcode, KlantWoonplaats )
-		VALUES (:Klantnaam, :KlantEmail, :KlantAdres :KlantPostcode, :KlantWoonplaats)";
+		$sql = "INSERT INTO klanten (KlantId,KlantNaam, KlantEmail, KlantAdres, KlantPostcode, KlantWoonplaats )
+		VALUES (:KlantId, :Klantnaam, :KlantEmail, :KlantAdres :KlantPostcode, :KlantWoonplaats)";
 
 		$stmt = self::$conn->prepare($sql);
 		return $stmt->execute((array)$this);
@@ -174,22 +177,26 @@ class Klant extends Database{
 	 * @param mixed $achternaam
 	 * @return void
 	 */
-	public function insertKlant2($Klantnaam, $klantemail, $klantadres, $klantpostcode, $klantwoonplaats){
+	public function insertKlant2($KlantNaam, $KlantEmail, $KlantAdres, $KlantPostcode, $KlantWoonplaats){
 		
 		// query
-		$nr = $this->BepMaxNr();
-		$sql = "INSERT INTO acteurs (NR, VOORNAAM, ACHTERNAAM)
-		VALUES (:nr, :voornaam, :achternaam)";
+		$this->KlantId = $this->BepMaxNr();
+		$sql = "INSERT INTO klanten (klantid,klantNaam, klantEmail, klantAdres, klantPostcode, klantWoonplaats )
+		VALUES (:KlantId, :KlantNaam, :KlantEmail, :KlantAdres, :KlantPostcode, :KlantWoonplaats)";
+		
 		
 		// Prepare
 		$stmt = self::$conn->prepare($sql);
 		
 		// Execute
 		$stmt->execute([
-			'nr'=>$nr,
-			'voornaam'=>$voornaam,
-			'achternaam'=>$achternaam
+			'KlantId'=>$this->KlantId,
+			'KlantNaam'=>$KlantNaam,
+			'KlantEmail'=>$KlantEmail,
+			'KlantAdres'=>$KlantAdres,
+			'KlantPostcode'=>$KlantPostcode,
+			'KlantWoonplaats'=>$KlantWoonplaats
 		]);			
 	}
-}
+} 
 ?>

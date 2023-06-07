@@ -1,4 +1,4 @@
-<?php
+dfvgbnm,./;<?php
 
 class Database{
 	// protected: binnen class en subclasses
@@ -14,7 +14,7 @@ class Database{
 	// Methods
 	public function __construct(){
 			
-		// Test of de connectie al eerder gedaan is. Daarom static variabele
+		
 		if (!self::$conn) {
 			try{
 				 self::$conn = new PDO ("mysql:host=$this->servername;

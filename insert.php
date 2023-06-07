@@ -2,12 +2,12 @@
 
 if(isset($_POST["insert"]) && $_POST["insert"] == "Toevoegen"){
 		
-	include_once 'classes/database.php';
+	include_once('classes/klant.php');
 		
-		$klant = new Klant;
+		$klant = new klant;
 		//$acteur->setObject(0, $_POST['voornaam'], $_POST['achternaam']);
 		//$acteur->insertActeur();
-		$Klant->insertKlant($_POST['KlantNaam'], $_POST['KlantEmail'], $_POST['KlantAdres'], $_POST['KlantPostcode'], $_POST['KlantWoonplaats']);
+		$klant->insertKlant2($_POST['KlantNaam'], $_POST['KlantEmail'], $_POST['KlantAdres'], $_POST['KlantPostcode'], $_POST['KlantWoonplaats']);
 			
 		echo "<script>alert('Klant: $_POST[KlantNaam] $_POST[KlantEmail] $_POST[KlantAdres] $_POST[KlantPostcode] $_POST[KlantWoonplaats] is toegevoegd')</script>";
 		echo "<script> location.replace('index.php'); </script>";
